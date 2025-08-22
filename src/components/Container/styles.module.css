@@ -1,0 +1,10 @@
+.content-fluid {
+  max-width: auto;
+}
+.container {
+  max-width: 98rem;
+  margin: 0 auto;
+}
+.content {
+  padding: 3.2rem;
+}
