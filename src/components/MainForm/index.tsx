@@ -2,23 +2,29 @@ import { PlayCircleIcon } from 'lucide-react';
 import { Cycles } from '../Cycles';
 import { DefaultButton } from '../DefaultButton';
 import { DefaultInput } from '../DefaultInput';
-import { useRef} from 'react';
+import { useRef } from 'react';
 import type { TaskModel } from '../../models/taskModel';
 import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
+import { getNextCycle } from '../../utils/getNextCycle';
+import { getnextCycleType } from '../../utils/getNextCycleType';
 
 export function MainForm() {
-  const {setState} = useTaskContext();
+  const { state, setState } = useTaskContext();
   const taskNameInput = useRef<HTMLInputElement>(null);
+
+  //ciclos
+  const nextCycle = getNextCycle(state.currentCycle);
+  //tipo do ciclo
+  const nextCycleType = getnextCycleType(nextCycle);
 
   function handleCreateNewTask(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-   if(taskNameInput.current === null) return;
+    if (taskNameInput.current === null) return;
 
-   const taskName = taskNameInput.current.value.trim();
-    if(!taskName) {
-      alert('digite o nome da tarefa')
-      return
+    const taskName = taskNameInput.current.value.trim();
+    if (!taskName) {
+      return;
     }
     //criar nova tarefa
     const newTask: TaskModel = {
@@ -27,31 +33,27 @@ export function MainForm() {
       startDate: Date.now(),
       completeDate: null,
       interruptDate: null,
-      duration: 1,
-      type: 'workTime'
+      duration: state.config[nextCycleType],
+      type: nextCycleType,
     };
 
-    const secondsRemaining = newTask.duration * 60
+    const secondsRemaining = newTask.duration * 60;
 
     setState(prevState => {
       return {
         ...prevState,
-        config:{...prevState.config},
+        config: { ...prevState.config },
         activeTask: newTask,
-        currentCycle: 1,
+        currentCycle: nextCycle,
         secondsRemaining,
         formattedSecondsRemaining: '00:00',
-        tasks: [
-          ...prevState.tasks, newTask
-        ],
-      }
-    })
-   console.log(taskName);
+        tasks: [...prevState.tasks, newTask],
+      };
+    });
   }
 
   return (
     <form onSubmit={handleCreateNewTask} className='form' action=''>
-      <h1>o formulario foi enviado </h1>
       <div className='formRow'>
         <DefaultInput
           labelText='task'
