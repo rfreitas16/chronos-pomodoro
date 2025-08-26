@@ -8,6 +8,7 @@ import { getNextCycle } from '../../utils/getNextCycle';
 import { getnextCycleType } from '../../utils/getNextCycleType';
 import { TaskActionTypes } from '../../contexts/TaskContext/taskActions';
 import type { TaskModel } from '../../models/TaskModel';
+import { Tips } from '../Tips';
 
 export function MainForm() {
   const { state, dispatch } = useTaskContext();
@@ -59,7 +60,7 @@ export function MainForm() {
       </div>
 
       <div className='formRow'>
-        <p>Lorem ipsum dolor sit amet.</p>
+        <Tips />
       </div>
       {state.currentCycle > 0 && (
         <div className='formRow'>
