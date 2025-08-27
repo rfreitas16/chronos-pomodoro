@@ -3,13 +3,20 @@ import type { TaskModel } from '../../models/TaskModel';
 export enum TaskActionTypes {
   START_TASK = 'START_TASK',
   INTERRUPT_TASK = 'INTERRUPT_TASK',
+  COUNT_DOWN = 'COUNT_DOWN',
+  COMPLETE_TASK = 'COMPLETE_TASK',
   RESET_STATE = 'RESET_STATE',
 }
 
-export type TaskActionsWithPayload = {
-  type: TaskActionTypes.START_TASK;
-  payload: TaskModel;
-};
+export type TaskActionsWithPayload =
+  | {
+      type: TaskActionTypes.START_TASK;
+      payload: TaskModel;
+    }
+  | {
+      type: TaskActionTypes.COUNT_DOWN;
+      payload: { secondsRemaining: number };
+    };
 
 export type TaskActionsWithoutPayload =
   | {
@@ -17,6 +24,9 @@ export type TaskActionsWithoutPayload =
     }
   | {
       type: TaskActionTypes.INTERRUPT_TASK;
+    }
+  | {
+      type: TaskActionTypes.COMPLETE_TASK;
     };
 
 export type TaskActionModel =
