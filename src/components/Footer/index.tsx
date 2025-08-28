@@ -4,8 +4,8 @@ export function Footer() {
 
   return (
   <footer className={styles.footer}>
-    <a href="">Entenda como funciona a tecnia Pomodoro</a>
-    <a href="">Chronos Pmodoro &copy; {new Date().getFullYear()}- Feito com ♥</a>
+    <a href="/about-pomodoro/">Entenda como funciona a tecnia Pomodoro</a>
+    <a href="/">Chronos Pmodoro &copy; {new Date().getFullYear()}- Feito com ♥</a>
   </footer>
   );
 }
