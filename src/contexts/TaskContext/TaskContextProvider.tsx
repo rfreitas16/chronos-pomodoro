@@ -39,7 +39,6 @@ export function TaskContextProvider({ children }: TaskContextProviderPros) {
 
   useEffect(() => {
     if (!state.activeTask) {
-      console.log('worker terminado pq nao tem task');
       worker.terminate();
     }
     worker.postMessage(state);
@@ -48,10 +47,9 @@ export function TaskContextProvider({ children }: TaskContextProviderPros) {
   useEffect(() => {
     if (state.activeTask && playBeepRef.current === null) {
       playBeepRef.current = loadBeep();
-    }else{
+    } else {
       playBeepRef.current = null;
     }
-    console.log('activetask mudou', state.activeTask);
   }, [state.activeTask]);
   return (
     <TaskContext.Provider value={{ state, dispatch }}>
