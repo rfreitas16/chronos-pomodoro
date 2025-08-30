@@ -7,9 +7,32 @@ import styles from './styles.module.css';
 import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
 import { formatDate } from '../../utils/formateDate';
 import { getTaskStatus } from '../../utils/getTaskStatus';
+import { sortTasks, type SortTasksOptions } from '../../utils/sortTasks';
+import { useState } from 'react';
 
 export function History() {
   const { state } = useTaskContext();
+  const [sortTasksOptions, setSortTaskOptions] = useState<SortTasksOptions>(
+    () => {
+      return {
+        tasks: sortTasks({ tasks: state.tasks }),
+        field: 'startDate',
+        direction: 'desc',
+      };
+    },
+  );
+  function handleSortTasks({ field }: Pick<SortTasksOptions, 'field'>) {
+    const newDirection = sortTasksOptions.direction === 'desc' ? 'asc' : 'desc';
+    setSortTaskOptions({
+      tasks: sortTasks({
+        direction: newDirection,
+        tasks: sortTasksOptions.tasks,
+        field,
+      }),
+      direction: newDirection,
+      field,
+    });
+  }
 
   return (
     <MainTemplate>
@@ -31,19 +54,34 @@ export function History() {
           <table>
             <thead>
               <tr>
-                <th>Tarefa</th>
-                <th>Duracao</th>
-                <th>Status</th>
+                <th
+                  onClick={() => handleSortTasks({ field: 'name' })}
+                  className={styles.tableThSort}
+                >
+                  Tarefa
+                </th>
+                <th
+                  onClick={() => handleSortTasks({ field: 'duration' })}
+                  className={styles.tableThSort}
+                >
+                  Duracao
+                </th>
+                <th
+                  onClick={() => handleSortTasks({ field: 'startDate' })}
+                  className={styles.tableThSort}
+                >
+                  Status
+                </th>
                 <th>Tipo</th>
               </tr>
             </thead>
             <tbody>
-              {state.tasks.map(task => {
+              {sortTasksOptions.tasks.map(task => {
                 const taskTypeDictionary = {
                   workTime: 'Foco',
                   shortBreakTime: 'Descanso curto',
                   longBreakTime: 'Descanso Longo',
-                }
+                };
                 return (
                   <tr key={task.id}>
                     <td>{task.name}</td>

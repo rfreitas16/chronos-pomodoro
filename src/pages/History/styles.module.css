@@ -35,3 +35,10 @@
   text-align: left;
   padding: 1.6rem;
 }
+.tableThSort{
+  cursor:pointer;
+  transition: all 0.1s ease-in-out;
+}
+.tableThSort:hover{
+  filter: brightness(80%);
+}
