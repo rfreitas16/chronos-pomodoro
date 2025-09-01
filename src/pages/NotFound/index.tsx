@@ -5,6 +5,9 @@ import { RouterLink } from '../../components/RouterLink';
 import { MainTemplate } from '../../templates/MainTemplate';
 
 export function NotFound() {
+      useEffect(()=>{
+      document.title = 'Pagina nao encontrada';
+    }, []);
   return (
     <MainTemplate>
       <Container>

@@ -1,3 +1,5 @@
+
+import { useEffect } from 'react';
 import { Container } from '../../components/Container';
 import { CountDown } from '../../components/CountDown';
 
@@ -11,6 +13,9 @@ export type HomeProps = {
 };
 
 export function Home() {
+  useEffect(() => {
+    document.title = 'Chronos Pomodoro';
+  }, []);
   return (
     <MainTemplate>
       <Container>

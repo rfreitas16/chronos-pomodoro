@@ -44,11 +44,14 @@ export function History() {
     dispatch({ type: TaskActionTypes.RESET_STATE });
   }, [confirmClearHistory, dispatch]);
 
-  useEffect(()=> {
+  useEffect(() => {
     return () => {
       showMessage.dismiss();
-    }
-  }, [])
+    };
+  }, []);
+  useEffect(() => {
+    document.title = 'Historico';
+  }, []);
 
   function handleSortTasks({ field }: Pick<SortTasksOptions, 'field'>) {
     const newDirection = sortTasksOptions.direction === 'desc' ? 'asc' : 'desc';
