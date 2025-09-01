@@ -9,10 +9,12 @@ import { formatDate } from '../../utils/formateDate';
 import { getTaskStatus } from '../../utils/getTaskStatus';
 import { sortTasks, type SortTasksOptions } from '../../utils/sortTasks';
 import { useEffect, useState } from 'react';
+import { showMessage } from '../../adapters/showMessage';
 import { TaskActionTypes } from '../../contexts/TaskContext/taskActions';
 
 export function History() {
   const { state, dispatch } = useTaskContext();
+  const [confirmClearHistory, setConfirmClearHistory] = useState(false);
   const hasTasks = state.tasks.length > 0;
 
   const [sortTasksOptions, setSortTaskOptions] = useState<SortTasksOptions>(
@@ -34,6 +36,14 @@ export function History() {
     }));
   }, [state.tasks]);
 
+  useEffect(() => {
+    if (!confirmClearHistory) return;
+    console.log('apagar historico');
+    setConfirmClearHistory(false);
+
+    dispatch({ type: TaskActionTypes.RESET_STATE });
+  }, [confirmClearHistory, dispatch]);
+
   function handleSortTasks({ field }: Pick<SortTasksOptions, 'field'>) {
     const newDirection = sortTasksOptions.direction === 'desc' ? 'asc' : 'desc';
     setSortTaskOptions({
@@ -48,9 +58,10 @@ export function History() {
   }
 
   function handleResetHistory() {
-    console.log('reset');
-    if (!confirm('tem certeza?')) return;
-    dispatch({ type: TaskActionTypes.RESET_STATE });
+    showMessage.dismiss();
+    showMessage.confirm('tem certeza?', confirmation => {
+      setConfirmClearHistory(confirmation);
+    });
   }
 
   return (
@@ -59,15 +70,15 @@ export function History() {
         <Heading>
           <span>History</span>
           {hasTasks && (
-          <span className={styles.buttonContainer}>
-            <DefaultButton
-              icon={<TrashIcon />}
-              color='red'
-              aria-label='Apagar todo o historico'
-              title='Apagar historico'
-              onClick={handleResetHistory}
-            ></DefaultButton>
-          </span>
+            <span className={styles.buttonContainer}>
+              <DefaultButton
+                icon={<TrashIcon />}
+                color='red'
+                aria-label='Apagar todo o historico'
+                title='Apagar historico'
+                onClick={handleResetHistory}
+              ></DefaultButton>
+            </span>
           )}
         </Heading>
       </Container>
@@ -119,7 +130,11 @@ export function History() {
             </table>
           </div>
         )}
-        {!hasTasks && <p style={{textAlign: 'center'}}>Ainda nao existem tarefas no historico</p>}
+        {!hasTasks && (
+          <p style={{ textAlign: 'center' }}>
+            Ainda nao existem tarefas no historico
+          </p>
+        )}
       </Container>
     </MainTemplate>
   );
