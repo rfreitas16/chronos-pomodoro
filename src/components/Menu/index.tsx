@@ -59,7 +59,7 @@ export function Menu() {
       </RouterLink>
       <RouterLink
         className={styles.menuLink}
-        href='#'
+        href='/settings/'
         aria-label='configuracoes'
         title='configuracoes'
       >

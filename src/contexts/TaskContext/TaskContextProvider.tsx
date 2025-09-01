@@ -11,6 +11,7 @@ type TaskContextProviderPros = {
   children: React.ReactNode;
 };
 
+
 export function TaskContextProvider({ children }: TaskContextProviderPros) {
   const [state, dispatch] = useReducer(taskReducer, initialTaskState, () => {
     const storageState = localStorage.getItem('state');
