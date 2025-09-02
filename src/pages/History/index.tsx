@@ -77,7 +77,7 @@ export function History() {
     <MainTemplate>
       <Container>
         <Heading>
-          <span>History</span>
+          <span>Historico</span>
           {hasTasks && (
             <span className={styles.buttonContainer}>
               <DefaultButton
@@ -91,6 +91,7 @@ export function History() {
           )}
         </Heading>
       </Container>
+
       <Container>
         {hasTasks && (
           <div className={styles.responsiveTable}>
@@ -113,8 +114,9 @@ export function History() {
                     onClick={() => handleSortTasks({ field: 'startDate' })}
                     className={styles.tableThSort}
                   >
-                    Status
+                    Data
                   </th>
+                  <th>Status</th>
                   <th>Tipo</th>
                 </tr>
               </thead>

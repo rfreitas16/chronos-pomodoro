@@ -64,7 +64,7 @@ export function Settings() {
       </Container>
       <Container>
         <p style={{ textAlign: 'center' }}>
-          modifique as configuracoes para tempos de foco
+          Modifique as configuracoes para tempos de foco
         </p>
       </Container>
       <Container>
