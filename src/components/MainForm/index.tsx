@@ -5,21 +5,20 @@ import { DefaultInput } from '../DefaultInput';
 import { useRef } from 'react';
 import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
 import { getNextCycle } from '../../utils/getNextCycle';
-import { getnextCycleType } from '../../utils/getNextCycleType';
+import { getNextCycleType } from '../../utils/getNextCycleType';
 import { TaskActionTypes } from '../../contexts/TaskContext/taskActions';
-import type { TaskModel } from '../../models/TaskModel';
 import { Tips } from '../Tips';
 import { showMessage } from '../../adapters/showMessage';
+import type { TaskModel } from '../../models/TaskModel';
 
 export function MainForm() {
   const { state, dispatch } = useTaskContext();
   const taskNameInput = useRef<HTMLInputElement>(null);
-  const lastTaskName = state.tasks[state.tasks.length -1]?.name || '';
+  const lastTaskName = state.tasks[state.tasks.length - 1]?.name || '';
 
-  //ciclos
+  // ciclos
   const nextCycle = getNextCycle(state.currentCycle);
-  //tipo do ciclo
-  const nextCycleType = getnextCycleType(nextCycle);
+  const nextCyleType = getNextCycleType(nextCycle);
 
   function handleCreateNewTask(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -28,28 +27,30 @@ export function MainForm() {
     if (taskNameInput.current === null) return;
 
     const taskName = taskNameInput.current.value.trim();
+
     if (!taskName) {
-      showMessage.warn('testando');
+      showMessage.warn('Digite o nome da tarefa');
       return;
     }
-    //criar nova tarefa
+
     const newTask: TaskModel = {
       id: Date.now().toString(),
       name: taskName,
       startDate: Date.now(),
       completeDate: null,
       interruptDate: null,
-      duration: state.config[nextCycleType],
-      type: nextCycleType,
+      duration: state.config[nextCyleType],
+      type: nextCyleType,
     };
 
     dispatch({ type: TaskActionTypes.START_TASK, payload: newTask });
+
     showMessage.success('Tarefa iniciada');
   }
 
   function handleInterruptTask() {
     showMessage.dismiss();
-    showMessage.error('tarefa interrompida');
+    showMessage.error('Tarefa interrompida!');
     dispatch({ type: TaskActionTypes.INTERRUPT_TASK });
   }
 
@@ -58,7 +59,7 @@ export function MainForm() {
       <div className='formRow'>
         <DefaultInput
           labelText='task'
-          id='meuid'
+          id='meuInput'
           type='text'
           placeholder='Digite algo'
           ref={taskNameInput}
@@ -70,25 +71,28 @@ export function MainForm() {
       <div className='formRow'>
         <Tips />
       </div>
+
       {state.currentCycle > 0 && (
         <div className='formRow'>
           <Cycles />
         </div>
       )}
+
       <div className='formRow'>
         {!state.activeTask && (
           <DefaultButton
-            aria-label='iniciar nova tarefa'
-            title='iniciar nova tarefa'
+            aria-label='Iniciar nova tarefa'
+            title='Iniciar nova tarefa'
             type='submit'
             icon={<PlayCircleIcon />}
             key='botao_submit'
           />
         )}
+
         {!!state.activeTask && (
           <DefaultButton
-            aria-label='interromper tarefa atual'
-            title='interromper tarefa atual'
+            aria-label='Interromper tarefa atual'
+            title='Interromper tarefa atual'
             type='button'
             color='red'
             icon={<StopCircleIcon />}

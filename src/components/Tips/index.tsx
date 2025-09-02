@@ -1,13 +1,13 @@
 import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
 import { getNextCycle } from '../../utils/getNextCycle';
-import { getnextCycleType } from '../../utils/getNextCycleType';
+import { getNextCycleType } from '../../utils/getNextCycleType';
 
 export function Tips() {
   const { state } = useTaskContext();
   //ciclos
   const nextCycle = getNextCycle(state.currentCycle);
   //tipo do ciclo
-  const nextCycleType = getnextCycleType(nextCycle);
+  const nextCycleType = getNextCycleType(nextCycle);
   //mensagem entre os ciclos
   const tipsForWhenActiveTask = {
     workTime: (

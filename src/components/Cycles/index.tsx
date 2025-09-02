@@ -1,6 +1,6 @@
 import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
 import { getNextCycle } from '../../utils/getNextCycle';
-import { getnextCycleType } from '../../utils/getNextCycleType';
+import { getNextCycleType } from '../../utils/getNextCycleType';
 import styles from './styles.module.css';
 
 export function Cycles() {
@@ -21,7 +21,7 @@ export function Cycles() {
       <div className={styles.cycleDots}>
         {cycleSteps.map((_, index) => {
           const nextCycle = getNextCycle(index);
-          const nextCycleType = getnextCycleType(nextCycle);
+          const nextCycleType = getNextCycleType(nextCycle);
           return (
             <span
               key={`${nextCycleType}_${nextCycle}`}
